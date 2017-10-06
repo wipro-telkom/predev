@@ -1,8 +1,11 @@
 package com.telkom.gatewayFrmwork.databaseUtil;
 
 import java.util.List;
+import java.util.Map;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.criterion.Restrictions;
@@ -10,9 +13,13 @@ import org.hibernate.criterion.Restrictions;
 @SuppressWarnings("rawtypes")
 public class BridgeDatabaseService {
 	private Session session;
+	static private SessionFactory factory;
 
 	public BridgeDatabaseService() {
-		session = new AnnotationConfiguration().configure().buildSessionFactory().openSession();
+		if (factory == null) {
+			factory = new AnnotationConfiguration().configure().buildSessionFactory();
+		}
+		session = factory.openSession();
 	}
 
 	public List getAll(Class arg) {
@@ -36,14 +43,23 @@ public class BridgeDatabaseService {
 		return session.load(arg, id);
 	}
 
-	public void saveOrUpdate(Object obj) {
+	public void update(Object obj) {
 		Transaction t = session.beginTransaction();
-		session.saveOrUpdate(obj);
+		session.update(obj);
 		t.commit();
 	}
 
-	public List loadBykey(Class arg, String name, Object value,String role) {
-		return session.createCriteria(arg).add(Restrictions.eq(name, value)).list();
+	public List loadBykey(Class arg, Map<String, Object> mapping) {
+		Criteria criteria = session.createCriteria(arg);
+		for (Map.Entry m : mapping.entrySet()) {
+			criteria = criteria.add(Restrictions.eq((String) m.getKey(), m.getValue()));
+		}
+		return criteria.list();
+	}
+
+	public void closeSession() {
+		session.close();
+		factory.close();
 	}
 
 }
