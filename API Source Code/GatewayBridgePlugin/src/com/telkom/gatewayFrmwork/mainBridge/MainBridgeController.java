@@ -25,6 +25,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -42,8 +43,8 @@ public class MainBridgeController {
 		JSONObject json = new JSONObject();
 		BridgeDatabaseService database = null;
 		try {
-			if (data != null || data.containsKey("data") || data.containsKey("datatype")) {
-				System.out.println(((JSONObject)data.get("data")));
+			if (data != null && data.containsKey("data") && data.containsKey("datatype")) {
+				System.out.println(((JSONObject) data.get("data")));
 				JSONObject jsonData = (JSONObject) new JSONParser().parse(data.get("data").toString());
 				json.put("error", "false");
 				database = new BridgeDatabaseService();
@@ -61,9 +62,7 @@ public class MainBridgeController {
 					}
 				}
 				if (flag) {
-					Object obj = Class
-							.forName("com.telkom.apiDatabaseInterface.pojo." + data.get("datatype").toString())
-							.getConstructor().newInstance();
+					Object obj = classData.getConstructor().newInstance();
 					Gson gson = new GsonBuilder().create();
 					obj = gson.fromJson(jsonData.toString(), obj.getClass());
 					database.add(obj);
@@ -129,15 +128,18 @@ public class MainBridgeController {
 			if (api != null) {
 				if (cache == null || cache.equals("true")) {
 					database = new BridgeDatabaseService();
-					List<TelkomApiManager> apimanager = database.loadBykey(TelkomApiManager.class, keyMap);
+					List<TelkomApiManager> apimanager = database.loadBykey(TelkomApiManager.class,
+							(Map<String, Object>) new HashMap<String, Object>().put("API_MNGR_NAME", api));
 					if (!apimanager.isEmpty()) {
-						List<TelkomApiData> data = database.loadBykey(TelkomApiData.class,
-								(Map<String, Object>) new HashMap<String, Object>().put("API_Mgr_ID",
-										apimanager.get(0).getAPI_MNGR_ID()));
-						JSONObject jsonData = (JSONObject) new JSONParser()
-								.parse(new GsonBuilder().create().toJson(data.get(0)));
+						keyMap.put("API_Mgr_ID", apimanager.get(0).getAPI_MNGR_ID());
+						List<TelkomApiData> data = database.loadBykey(TelkomApiData.class, keyMap);
+						JSONArray jsonArray = new JSONArray();
+						for (int i = 0; i < data.size(); i++) {
+							jsonArray.add((JSONObject) new JSONParser()
+									.parse(new GsonBuilder().create().toJson(data.get(i))));
+						}
 						json.put("error", "false");
-						json.put("data", jsonData);
+						json.put("data", jsonArray);
 					} else {
 						json.put("error", "true");
 						json.put("message", "Data not found");
@@ -281,10 +283,8 @@ public class MainBridgeController {
 
 		return response;
 	}
-
-	public static void main(String[] args) throws Exception {
-		JSONObject json = (JSONObject) new JSONParser().parse("{\"datatype\":\"TelkomAPI_Categories\",\"data\":{\"CAT_DESC\":\"11\",\"CAT_NAME\":\"1234\"}}");
-		System.out.println(json.get("data"));
+	public static void main(String[] args) throws ClassNotFoundException {
+		System.out.println(Class.forName("com.telkom.apiDatabaseInterface.pojo.TelkomApiData"));
 	}
 
 }

@@ -7,7 +7,6 @@ import java.io.IOException;
 
 public class CORSFilter implements Filter {
 	public void destroy() {
-		System.out.println("DESTROY WORKING");
 	}
 
 	public static String VALID_METHODS = "DELETE, HEAD, GET, OPTIONS, POST, PUT";
@@ -16,11 +15,9 @@ public class CORSFilter implements Filter {
 			throws ServletException, IOException {
 		HttpServletRequest httpReq = (HttpServletRequest) req;
 		HttpServletResponse httpResp = (HttpServletResponse) resp;
-		System.out.println("WORKING");
 
 		// No Origin header present means this is not a cross-domain request
 		String origin = httpReq.getHeader("Origin");
-		System.out.println(origin);
 //		if (origin == null) {
 //			// Return standard response if OPTIONS request w/o Origin header
 //			if ("OPTIONS".equalsIgnoreCase(httpReq.getMethod())) {
@@ -47,8 +44,6 @@ public class CORSFilter implements Filter {
 	}
 
 	public void init(FilterConfig config) throws ServletException {
-		System.out.println("WORKING");
-
 	}
 
 }
