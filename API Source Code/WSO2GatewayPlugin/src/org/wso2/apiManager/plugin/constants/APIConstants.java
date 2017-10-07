@@ -41,4 +41,6 @@ public final class APIConstants {
 
     public static final String RADIO_BUTTON_OPTIONS_YES = "Yes";
     public static final String RADIO_BUTTON_OPTIONS_NO = "No";
+	public static final String API_STORE_PRICING_DETAIL_URL = "MainAPI/1.0.0-unbill/api";
+	public static final String API_STORE_PUBLISHER_USER = "master@mainapi.net@carbon.super";
 }

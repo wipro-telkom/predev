@@ -20,6 +20,8 @@ package org.wso2.apiManager.plugin.client;
 
 import com.eviware.soapui.SoapUI;
 import com.eviware.soapui.support.StringUtils;
+import com.telkom.gatewayFrmwork.wso2.Wso2Constants;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -195,7 +197,6 @@ public class APIManagerClient {
 			HttpResponse response = httpClient.execute(httpPost, httpContext);
 			HttpEntity entity = response.getEntity();
 			String responseString = EntityUtils.toString(entity, StandardCharsets.UTF_8);
-			System.out.println(responseString);
 			String[] errorSection = responseString.split(",");
 			boolean isError = Boolean.parseBoolean(errorSection[0].split(":")[1].split("}")[0].trim());
 			if (isError) {
@@ -316,7 +317,7 @@ public class APIManagerClient {
 	}
 
 	public JSONObject WSO2getApi(String API_NAME, String loginUrl, String storeEndpoint, String tenantDomain,
-			String userName, char[] password,String API_Version,String provider) throws Exception {
+			String userName, char[] password, String API_Version, String provider) throws Exception {
 		JSONObject jsonObject = null;
 		String tenantUserName = userName;
 
@@ -377,7 +378,7 @@ public class APIManagerClient {
 		// If the authentication process is successful
 		HttpClient httpClient = getHttpClient();
 		HttpPost httpPost = new HttpPost(getapiStoreBaseUrl + APIConstants.API_STORE_USER_SIGNUP_URL);
-		if (authenticate(getapiStoreBaseUrl+APIConstants.API_STORE_LOGIN_URL, userName, password.toCharArray())) {
+		if (authenticate(getapiStoreBaseUrl + APIConstants.API_STORE_LOGIN_URL, userName, password.toCharArray())) {
 			try {
 				// Request parameters and other properties.
 				List<NameValuePair> params = new ArrayList<NameValuePair>(3);
@@ -447,6 +448,158 @@ public class APIManagerClient {
 		} finally {
 			// This is done to release the connections
 			httpPost.reset();
+		}
+		return jsonObject;
+	}
+
+	public JSONObject getApplications(String getapiBaseUrl) throws Exception {
+		JSONObject jsonObject = null;
+
+		// If the authentication process is successful
+		HttpClient httpClient = getHttpClient();
+		HttpPost httpPost = null;
+		httpPost = new HttpPost(
+				getapiBaseUrl + "/site/blocks/application/application-list/ajax/application-list.jag");
+		if (authenticate(Wso2Constants.GETAPI_STORE_BASE_URL, Wso2Constants.GETAPI_USERNAME, Wso2Constants.GETAPI_USERPASS)) {
+			try {
+				List<NameValuePair> params = new ArrayList<NameValuePair>(3);
+				params.add(new BasicNameValuePair("action", "getApplications"));
+				httpPost.setEntity(new UrlEncodedFormEntity(params, StandardCharsets.UTF_8));
+				HttpResponse response = httpClient.execute(httpPost, httpContext);
+				HttpEntity entity = response.getEntity();
+				String responseString = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+				String[] errorSection = responseString.split(",");
+				boolean isError = Boolean.parseBoolean(errorSection[0].split(":")[1].split("}")[0].trim());
+				if (isError) {
+					String errorMsg = errorSection[1].split(":")[1].split("}")[0].trim();
+					errorMsg = errorMsg.replace("\"", "");
+					throw new Exception(errorMsg);
+				}
+				try {
+					jsonObject = (org.json.simple.JSONObject) org.json.simple.JSONValue.parse(responseString);
+				} catch (ClassCastException e) {
+					throw new Exception("Could not parse the results. Incompatible result", e);
+				}
+			} finally {
+				// This is done to release the connections
+				httpPost.reset();
+			}
+		}
+		return jsonObject;
+	}
+
+	public JSONObject getAllSubcriptions(String getapiStoreBaseUrl) throws Exception {
+		JSONObject jsonObject = null;
+
+		// If the authentication process is successful
+		HttpClient httpClient = getHttpClient();
+		HttpPost httpPost = null;
+		httpPost = new HttpPost(
+				getapiStoreBaseUrl + "/site/blocks/subscription/subscription-list/ajax/subscription-list.jag");
+		if (authenticate(Wso2Constants.GETAPI_STORE_BASE_URL, Wso2Constants.GETAPI_USERNAME, Wso2Constants.GETAPI_USERPASS)) {
+			try {
+				List<NameValuePair> params = new ArrayList<NameValuePair>(3);
+				params.add(new BasicNameValuePair("action", "getAllSubscriptions"));
+				httpPost.setEntity(new UrlEncodedFormEntity(params, StandardCharsets.UTF_8));
+				HttpResponse response = httpClient.execute(httpPost, httpContext);
+				HttpEntity entity = response.getEntity();
+				String responseString = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+				String[] errorSection = responseString.split(",");
+				boolean isError = Boolean.parseBoolean(errorSection[0].split(":")[1].split("}")[0].trim());
+				if (isError) {
+					String errorMsg = errorSection[1].split(":")[1].split("}")[0].trim();
+					errorMsg = errorMsg.replace("\"", "");
+					throw new Exception(errorMsg);
+				}
+				try {
+					jsonObject = (org.json.simple.JSONObject) org.json.simple.JSONValue.parse(responseString);
+				} catch (ClassCastException e) {
+					throw new Exception("Could not parse the results. Incompatible result", e);
+				}
+			} finally {
+				// This is done to release the connections
+				httpPost.reset();
+			}
+		}
+		return jsonObject;
+	}
+
+	public JSONObject removeSubcriptions(String getapiStoreBaseUrl,String apiName,String apiVersion,String applicationId) throws Exception {
+		JSONObject jsonObject = null;
+
+		// If the authentication process is successful
+		HttpClient httpClient = getHttpClient();
+		HttpPost httpPost = null;
+		httpPost = new HttpPost(
+				getapiStoreBaseUrl + "site/blocks/subscription/subscription-remove/ajax/subscription-remove.jag");
+		if (authenticate(Wso2Constants.GETAPI_STORE_BASE_URL, Wso2Constants.GETAPI_USERNAME, Wso2Constants.GETAPI_USERPASS)) {
+			try {
+				List<NameValuePair> params = new ArrayList<NameValuePair>(3);
+				params.add(new BasicNameValuePair("action", "removeSubscription"));
+				params.add(new BasicNameValuePair("name", apiName));
+				params.add(new BasicNameValuePair("version", apiVersion));
+				params.add(new BasicNameValuePair("provider", "master@mainapi.net@carbon.super"));
+				params.add(new BasicNameValuePair("applicationId", applicationId));
+				httpPost.setEntity(new UrlEncodedFormEntity(params, StandardCharsets.UTF_8));
+				HttpResponse response = httpClient.execute(httpPost, httpContext);
+				HttpEntity entity = response.getEntity();
+				String responseString = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+				String[] errorSection = responseString.split(",");
+				boolean isError = Boolean.parseBoolean(errorSection[0].split(":")[1].split("}")[0].trim());
+				if (isError) {
+					String errorMsg = errorSection[1].split(":")[1].split("}")[0].trim();
+					errorMsg = errorMsg.replace("\"", "");
+					throw new Exception(errorMsg);
+				}
+				try {
+					jsonObject = (org.json.simple.JSONObject) org.json.simple.JSONValue.parse(responseString);
+				} catch (ClassCastException e) {
+					throw new Exception("Could not parse the results. Incompatible result", e);
+				}
+			} finally {
+				// This is done to release the connections
+				httpPost.reset();
+			}
+		}
+		return jsonObject;
+	}
+	public JSONObject addSubcriptions(String getapiStoreBaseUrl,String apiName,String apiVersion,String applicationId,String tier) throws Exception {
+		JSONObject jsonObject = null;
+
+		// If the authentication process is successful
+		HttpClient httpClient = getHttpClient();
+		HttpPost httpPost = null;
+		httpPost = new HttpPost(
+				getapiStoreBaseUrl + "site/blocks/subscription/subscription-remove/ajax/subscription-remove.jag");
+		if (authenticate(Wso2Constants.GETAPI_STORE_BASE_URL, Wso2Constants.GETAPI_USERNAME, Wso2Constants.GETAPI_USERPASS)) {
+			try {
+				List<NameValuePair> params = new ArrayList<NameValuePair>(3);
+				params.add(new BasicNameValuePair("action", "addSubscription"));
+				params.add(new BasicNameValuePair("name", apiName));
+				params.add(new BasicNameValuePair("version", apiVersion));
+				params.add(new BasicNameValuePair("tier", tier));
+				params.add(new BasicNameValuePair("provider", "master@mainapi.net@carbon.super"));
+				params.add(new BasicNameValuePair("applicationId", applicationId));
+				httpPost.setEntity(new UrlEncodedFormEntity(params, StandardCharsets.UTF_8));
+				HttpResponse response = httpClient.execute(httpPost, httpContext);
+				HttpEntity entity = response.getEntity();
+				String responseString = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+				String[] errorSection = responseString.split(",");
+				boolean isError = Boolean.parseBoolean(errorSection[0].split(":")[1].split("}")[0].trim());
+				if (isError) {
+					String errorMsg = errorSection[1].split(":")[1].split("}")[0].trim();
+					errorMsg = errorMsg.replace("\"", "");
+					throw new Exception(errorMsg);
+				}
+				try {
+					jsonObject = (org.json.simple.JSONObject) org.json.simple.JSONValue.parse(responseString);
+				} catch (ClassCastException e) {
+					throw new Exception("Could not parse the results. Incompatible result", e);
+				}
+			} finally {
+				// This is done to release the connections
+				httpPost.reset();
+			}
 		}
 		return jsonObject;
 	}

@@ -12,9 +12,10 @@ public final class Wso2Constants {
 	
 	//API's endpoint url
 	public final static String GETAPI_PUBLISHER_BASE_URL = "https://pub.mainapi.net/publisher";
-	public final static String GETAPI_STORE_BASE_URL = "https://pub.mainapi.net/store";
+	public final static String GETAPI_STORE_BASE_URL = "https://www.mainapi.net/store";
 	public final static String GETAPI_USERNAME = "mediation.hub@mainapi.net";
 	public final static char[] GETAPI_USERPASS = "CH4ng3!!!".toCharArray();
+	public static final String PRICING_BASE_URL = "https://api.mainapi.net/authorize";
 	
 	
 
