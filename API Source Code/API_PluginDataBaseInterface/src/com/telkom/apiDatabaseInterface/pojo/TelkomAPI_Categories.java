@@ -21,6 +21,10 @@ public class TelkomAPI_Categories {
 	@Column(name = "cat_status")
 	private Boolean CAT_STATUS; // API Category Status
 
+	public String getIDname() {
+		return "CAT_ID";
+	}
+
 	/**
 	 * @return the cAT_ID
 	 */

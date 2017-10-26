@@ -12,7 +12,7 @@ import org.osgi.service.component.annotations.Component;
 @Component(
 	immediate = true,
 	property = {
-		"com.liferay.portlet.display-category=category.TelkomAPI",
+		"com.liferay.portlet.display-category=category.Telkom_APIs",
 		"com.liferay.portlet.instanceable=true",
 		"javax.portlet.display-name=TelkomAPIManagerConf Portlet",
 		"javax.portlet.init-param.template-path=/",

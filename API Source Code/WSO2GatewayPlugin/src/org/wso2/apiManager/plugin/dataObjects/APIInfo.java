@@ -22,58 +22,70 @@ package org.wso2.apiManager.plugin.dataObjects;
  * This class contains the API Information.
  */
 public class APIInfo {
-    private String name;
-    private String version;
-    private String provider;
-    private String description;
-    private String swaggerDocLink;
-    private String productVersion;
+	private String name;
+	private String version;
+	private String provider;
+	private String description;
+	private String swaggerDocLink;
+	private String productVersion;
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getVersion() {
-        return version;
-    }
+	public String getVersion() {
+		return version;
+	}
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
+	public void setVersion(String version) {
+		this.version = version;
+	}
 
-    public String getProvider() {
-        return provider;
-    }
+	public String getProvider() {
+		return provider;
+	}
 
-    public void setProvider(String provider) {
-        this.provider = provider;
-    }
+	public void setProvider(String provider) {
+		this.provider = provider;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public String getSwaggerDocLink() {
-        return swaggerDocLink;
-    }
+	public String getSwaggerDocLink() {
+		return swaggerDocLink;
+	}
 
-    public void setSwaggerDocLink(String swaggerDocLink) {
-        this.swaggerDocLink = swaggerDocLink;
-    }
+	public void setSwaggerDocLink(String swaggerDocLink) {
+		this.swaggerDocLink = swaggerDocLink;
+	}
 
-    public String getProductVersion() {
-        return productVersion;
-    }
+	public String getProductVersion() {
+		return productVersion;
+	}
 
-    public void setProductVersion(String productVersion) {
-        this.productVersion = productVersion;
-    }
+	public void setProductVersion(String productVersion) {
+		this.productVersion = productVersion;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "APIInfo [name=" + name + ", version=" + version + ", provider=" + provider + ", description="
+				+ description + ", swaggerDocLink=" + swaggerDocLink + ", productVersion=" + productVersion + "]";
+	}
+
 }

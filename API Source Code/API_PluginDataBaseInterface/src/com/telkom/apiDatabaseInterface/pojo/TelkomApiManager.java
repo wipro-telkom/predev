@@ -20,6 +20,10 @@ public class TelkomApiManager {
 	private String TOKEN_URL; // API Token API URL
 	private Boolean API_MANAGER_STATUS; // API MANAGER STATUS
 
+	public String getIDname() {
+		return "API_MNGR_ID";
+	}
+
 	/**
 	 * @return the aPI_MNGR_ID
 	 */

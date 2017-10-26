@@ -1,5 +1,6 @@
 package com.telkom.gatewayFrmwork.databaseUtil;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -26,11 +27,11 @@ public class BridgeDatabaseService {
 		return session.createCriteria(arg).list();
 	}
 
-	public void add(Object arg) {
+	public Serializable add(Object arg) {
 		Transaction t = session.beginTransaction();
-		session.persist(arg);
+		int i = (int) session.save(arg);
 		t.commit();
-
+		return i;
 	}
 
 	public void delete(Object arg) {
@@ -57,9 +58,20 @@ public class BridgeDatabaseService {
 		return criteria.list();
 	}
 
+	/**
+	 * @return the session
+	 */
+	public Session getSession() {
+		return session;
+	}
+
 	public void closeSession() {
 		session.close();
 		factory.close();
+	}
+
+	public void saveorUpdate(Object obj) {
+		session.saveOrUpdate(obj);
 	}
 
 }
