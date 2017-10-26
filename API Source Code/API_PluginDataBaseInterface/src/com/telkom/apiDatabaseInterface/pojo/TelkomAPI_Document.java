@@ -23,6 +23,10 @@ public class TelkomAPI_Document {
 	@Column(name = "api_id")
 	private String API_ID; // API ID Referenced from API Data table
 
+	public String getIDname() {
+		return "DOCUMENT_ID";
+	}
+
 	/**
 	 * @return the dOCUMENT_ID
 	 */

@@ -12,34 +12,28 @@ import javax.persistence.Table;
 public class TelkomApiData {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "api_id")
+	@Column(name = "API_ID")
 	private int API_ID; // Primary Key
-	@Column(name = "api_mgr_id")
+	@Column(name = "API_Mgr_ID")
 	private int API_Mgr_ID; // API Manager ID : Name referenced from Another
 							// Table
-	@Column(name = "api_name")
+	@Column(name = "API_Name")
 	private String API_Name; // API Name should Be Unique
-	@Column(name = "api_cat_id")
-	private int API_Cat_ID; // API Category : Referenced from Another Table
-	@Column(name = "api_short_desc")
+	@Column(name = "API_Short_Desc")
 	private String API_Short_Desc; // API Short Description
-	@Column(name = "api_summ")
+	@Column(name = "API_Summ")
 	private String API_Summ; // API Summary
-	@Column(name = "api_prd_url")
+	@Column(name = "API_Prd_URL")
 	private String API_Prd_URL; // API Production URL
-	@Column(name = "api_sand_url")
+	@Column(name = "API_Sand_URL")
 	private String API_Sand_URL; // API Sandbox URL
-	@Column(name = "api_ver")
+	@Column(name = "API_Ver")
 	private String API_Ver; // API Version
-	@Column(name = "api_pub_env")
+	@Column(name = "API_Pub_Env")
 	private String API_Pub_Env; // API Production Environment
-	@Column(name = "api_status")
+	@Column(name = "API_Status")
 	private String API_Status; // API Status for Mediation Portal View
 								// Enablement
-	@Column(name = "api_associated_userroles")
-	private String API_Associated_UserRoles; // User Role for API Data View
-	@Column(name = "api_price")
-	private String API_Price; // API Pricing data from Billing API
 
 	/**
 	 * @return the aPI_ID
@@ -84,21 +78,6 @@ public class TelkomApiData {
 	 */
 	public void setAPI_Name(String aPI_Name) {
 		API_Name = aPI_Name;
-	}
-
-	/**
-	 * @return the aPI_Cat_ID
-	 */
-	public int getAPI_Cat_ID() {
-		return API_Cat_ID;
-	}
-
-	/**
-	 * @param aPI_Cat_ID
-	 *            the aPI_Cat_ID to set
-	 */
-	public void setAPI_Cat_ID(int aPI_Cat_ID) {
-		API_Cat_ID = aPI_Cat_ID;
 	}
 
 	/**
@@ -206,36 +185,6 @@ public class TelkomApiData {
 		API_Status = aPI_Status;
 	}
 
-	/**
-	 * @return the aPI_Associated_UserRoles
-	 */
-	public String getAPI_Associated_UserRoles() {
-		return API_Associated_UserRoles;
-	}
-
-	/**
-	 * @param aPI_Associated_UserRoles
-	 *            the aPI_Associated_UserRoles to set
-	 */
-	public void setAPI_Associated_UserRoles(String aPI_Associated_UserRoles) {
-		API_Associated_UserRoles = aPI_Associated_UserRoles;
-	}
-
-	/**
-	 * @return the aPI_Price
-	 */
-	public String getAPI_Price() {
-		return API_Price;
-	}
-
-	/**
-	 * @param aPI_Price
-	 *            the aPI_Price to set
-	 */
-	public void setAPI_Price(String aPI_Price) {
-		API_Price = aPI_Price;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -244,10 +193,9 @@ public class TelkomApiData {
 	@Override
 	public String toString() {
 		return "TelkomApiData [API_ID=" + API_ID + ", API_Mgr_ID=" + API_Mgr_ID + ", API_Name=" + API_Name
-				+ ", API_Cat_ID=" + API_Cat_ID + ", API_Short_Desc=" + API_Short_Desc + ", API_Summ=" + API_Summ
-				+ ", API_Prd_URL=" + API_Prd_URL + ", API_Sand_URL=" + API_Sand_URL + ", API_Ver=" + API_Ver
-				+ ", API_Pub_Env=" + API_Pub_Env + ", API_Status=" + API_Status + ", API_Associated_UserRoles="
-				+ API_Associated_UserRoles + ", API_Price=" + API_Price + "]";
+				+ ", API_Short_Desc=" + API_Short_Desc + ", API_Summ=" + API_Summ + ", API_Prd_URL=" + API_Prd_URL
+				+ ", API_Sand_URL=" + API_Sand_URL + ", API_Ver=" + API_Ver + ", API_Pub_Env=" + API_Pub_Env
+				+ ", API_Status=" + API_Status + "]";
 	}
 
 }

@@ -1,23 +1,30 @@
 <?xml version='1.0' encoding='UTF-8'?>  
 <!DOCTYPE hibernate-configuration PUBLIC  
           "-//Hibernate/Hibernate Configuration DTD 3.0//EN"  
-          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">  
-  
-<hibernate-configuration>  
-  
-    <session-factory>  
-        <property name="hbm2ddl.auto">update</property>  
-        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>  
-        <property name="connection.url">jdbc:mysql://10.138.30.11:3306/telkom_api_database</property>  
-        <property name="connection.username">root</property>  
-        <property name="connection.password">password</property>  
-        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>  
-        <property name="connection.useSSL">false</property>
-        <property name="connection.pool_size">20</property>
-    <mapping class="com.telkom.apiDatabaseInterface.pojo.TelkomApiData"/>
-    <mapping class="com.telkom.apiDatabaseInterface.pojo.TelkomAPI_Categories"/>
-    <mapping class="com.telkom.apiDatabaseInterface.pojo.TelkomAPI_Document"/>
-    <mapping class="com.telkom.apiDatabaseInterface.pojo.TelkomApiManager"/>
-    </session-factory>  
-  
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<property name="hbm2ddl.auto">update</property>
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		<!-- <property name="connection.url">jdbc:mysql://10.138.30.11:3306/telkom_api_database</property> -->
+		<property name="connection.url">jdbc:mysql://mysqlserver:3306/telkom_api_database</property>
+		<property name="connection.username">root</property>
+		<!-- <property name="connection.password">password</property> -->
+		<property name="connection.password">root</property>
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.useSSL">false</property>
+		<property name="connection.pool_size">20</property>
+		<property name="connection.autoReconnect">true</property>
+		<property name="connection.autoReconnectForPools">true</property>
+		<property name="connection.is-connection-validation-required">true</property>
+		<mapping class="com.telkom.apiDatabaseInterface.pojo.TelkomApiData" />
+		<mapping class="com.telkom.apiDatabaseInterface.pojo.TelkomAPI_Categories" />
+		<mapping class="com.telkom.apiDatabaseInterface.pojo.TelkomAPI_Document" />
+		<mapping class="com.telkom.apiDatabaseInterface.pojo.TelkomApiManager" />
+		<mapping class="com.telkom.apiDatabaseInterface.pojo.Telkomapi_Cat_Mapping" />
+		<mapping class="com.telkom.apiDatabaseInterface.pojo.Telkomapi_Role_Mapping" />
+		<mapping class="com.telkom.apiDatabaseInterface.pojo.Telkomapi_Users" />
+	</session-factory>
+
 </hibernate-configuration>

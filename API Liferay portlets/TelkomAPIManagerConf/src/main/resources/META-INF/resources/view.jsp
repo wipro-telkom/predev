@@ -1,4 +1,4 @@
-/*  Name 		: APIs GatewayManager Page
+<%---- /*  Name 		: APIs GatewayManager Page
  *  Description : Admin can view/update API gatewaymanager details
  *  Middleware Provider : MW Database
  *  Urls invoked :: 
@@ -9,7 +9,7 @@
  *	Modified Date: 
  *	Modified by  : 
 
-*/
+*/ --%>
 
 
 <%@ include file="/init.jsp" %>
@@ -29,10 +29,8 @@
 
 <style>
 .apimanager_title {
-	color: #ffffff;
-	background-color: #e62037;
+	color: #000000;
 }
-
 .manage-api {
 	margin-top: 20px;
 }
@@ -102,6 +100,9 @@ input[type=checkbox], input[type=radio] {
 	line-height: normal;
 	float: left;
 }
+.table>thead:first-child>tr:first-child>th {
+    border-top: 0;
+    color: white;
 </style>
 <script>	
 	$(document).ready(function(){
@@ -109,7 +110,7 @@ input[type=checkbox], input[type=radio] {
 		function showdata(){
 			$.ajax({
 					method : "get",
-					url : "http://10.138.30.11:9846/GatewayBridgePlugin/rest/BridgeController/getApimgrData",
+					url : "http://wso2-predev-website.2f96.telkom.openshiftapps.com/GatewayBridgePlugin/rest/BridgeController/getApimgrData",
 					type : 'json',
 				}).done(function(msg) {
 				//alert(msg.data.length);
@@ -149,7 +150,7 @@ input[type=checkbox], input[type=radio] {
 					$('#myModal').find('#userid').val(user_id);
 					$('#myModal').find('#password').val(password);
 					$('#myModal').find('#tokenurl').val(token_url);
-					$('#myModal').find('#managerstatus').prop('checked',selected);
+					$('#myModal').find('.manager_status').prop('checked',selected);
 					//$('#myModal .descriptionbtn button').html("Update");
 					$('#myModal .popup_title h4.popuplabel').html("Update API Manager");
 					$('#myModal').toggle();
@@ -163,8 +164,8 @@ input[type=checkbox], input[type=radio] {
 			$.ajax({
 			type: "POST",
 			contentType: 'application/json',
-			url: "http://10.138.30.11:9846/GatewayBridgePlugin/rest/BridgeController/edit",
-			data:'{"datatype":"TelkomApiManager","id":"'+$("#managerid").val()+'","data":{"PUBLISHER_URL":"'+$("#publishurl").val()+'","STORE_URL":"'+$("#storeurl").val()+'","USER_ID":"'+$("#userid").val()+'","PASSWORD":"'+$("#password").val()+'","TOKEN_URL":"'+$("#tokenurl").val()+'","API_MANAGER_STATUS":"'+$("#managerstatus").val()+'","API_MNGR_ID":" '+$("#managerid").val()+'"}}',
+			url: "http://wso2-predev-website.2f96.telkom.openshiftapps.com/GatewayBridgePlugin/rest/BridgeController/edit",
+			data:'{"datatype":"TelkomApiManager","id":"'+$("#managerid").val()+'","data":{"PUBLISHER_URL":"'+$("#publishurl").val()+'","STORE_URL":"'+$("#storeurl").val()+'","USER_ID":"'+$("#userid").val()+'","PASSWORD":"'+$("#password").val()+'","TOKEN_URL":"'+$("#tokenurl").val()+'","API_MANAGER_STATUS":"'+$("input.manager_status").prop('checked')+'","API_MNGR_ID":" '+$("#managerid").val()+'"}}',
 				
 			dataType: "json",
 			success: function(result) {
@@ -204,7 +205,7 @@ input[type=checkbox], input[type=radio] {
 				<div>
 					<table id="api_mngr_details" class="table table-bordered">
 						<thead>
-							<tr bgcolor="#ffffff">
+							<tr bgcolor="#e62037">
 								<th>API Manager Name</th>
 								<th>Publisher URL</th>
 								<th>Store URL</th>
