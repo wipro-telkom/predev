@@ -25,6 +25,7 @@
 		<mapping class="com.telkom.apiDatabaseInterface.pojo.Telkomapi_Cat_Mapping" />
 		<mapping class="com.telkom.apiDatabaseInterface.pojo.Telkomapi_Role_Mapping" />
 		<mapping class="com.telkom.apiDatabaseInterface.pojo.Telkomapi_Users" />
+		<mapping class="com.telkom.apiDatabaseInterface.pojo.Telkomapi_Subscription" />
 	</session-factory>
 
 </hibernate-configuration>

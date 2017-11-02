@@ -138,6 +138,7 @@ public class MainBridgeController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response add(JSONObject data) throws Exception {
+		System.out.println(data);
 		data = (JSONObject) new JSONParser().parse(data.toJSONString());
 		JSONObject json = new JSONObject();
 		BridgeDatabaseService database = null;
@@ -194,11 +195,13 @@ public class MainBridgeController {
 			Map nameMap = new HashMap<String, Object>();
 			nameMap.put("API_Name", apiData.getAPI_Name());
 			List<TelkomApiData> apiList = database.loadBykey(TelkomApiData.class, nameMap);
+			System.out.println(data);
 			if (data.get("Published") != null && data.get("Published").toString().equalsIgnoreCase("True")) {
 				apiData.setAPI_Status("True");
 			} else {
 				apiData.setAPI_Status("False");
 			}
+			System.out.println(apiData);
 			int api_id = 0;
 			if (apiList.size() != 0) {
 				JSONObject jsonApi = (JSONObject) new JSONParser().parse(data.get("data").toString());
@@ -235,8 +238,8 @@ public class MainBridgeController {
 					}
 				}
 				api.setAPI_Status(apiData.getAPI_Status());
-				System.out.println(api);
 				api_id = api.getAPI_ID();
+				System.out.println("Final:" + api);
 				database.update(api);
 			} else {
 				api_id = (int) database.add(apiData);
@@ -329,6 +332,7 @@ public class MainBridgeController {
 					method.invoke(dataObject, classData.cast(jsonData.get(key)));
 				}
 			}
+			System.out.println(dataObject);
 			database.update(dataObject);
 			json.put("error", "false");
 		} catch (Exception e) {
@@ -357,10 +361,16 @@ public class MainBridgeController {
 						if (!categoryId.equals(""))
 							categoryString = "am.CAT_ID IN ('" + categoryId + "') and";
 					}
+					String roleString = "";
+					if (roleId != null && !roleId.contains("20122")) {
+						if (!roleId.equals(""))
+							roleString = " rm.role_id IN (" + roleId + ") and ";
+					}
 					Session session = database.getSession();
 					String queryString = "Select DISTINCT(api.API_ID) FROM TelkomApiData api,Telkomapi_Cat_Mapping am,Telkomapi_Role_Mapping rm where "
-							+ categoryString + " rm.role_id IN (" + roleId + ") "
-							+ " and am.API_ID=api.API_ID and rm.API_ID=api.API_ID and api.API_Status = 'true'";
+							+ categoryString + roleString
+							+ " am.API_ID=api.API_ID and rm.API_ID=api.API_ID and api.API_Status = 'true'";
+					System.out.println(queryString);
 					SQLQuery query = session.createSQLQuery(queryString);
 					List<Integer> apiIdList = query.list();
 					JSONArray jsonArray = new JSONArray();
@@ -416,7 +426,7 @@ public class MainBridgeController {
 		JSONObject json = new JSONObject();
 		JSONParser parser = new JSONParser();
 		URL u = new URL(WSO2_BASE_URL + "/WSO2GatewayPlugin/rest/WSO2StoreService/getAllApis");
-		c = (HttpURLConnection) u.openConnection();
+		c = (HttpURLConnection) u.openConnection(PROXY);
 		c.setRequestMethod("GET");
 		c.setRequestProperty("Content-length", "0");
 		c.setUseCaches(false);
@@ -558,7 +568,7 @@ public class MainBridgeController {
 							+ "/WSO2GatewayPlugin/rest/WSO2PublisherService/getApiDetails?API_NAME=" + apiName
 							+ "&version=" + version + "&provider=master@mainapi.net";
 					URL url = new URL(urlPath);
-					conn = (HttpURLConnection) url.openConnection();
+					conn = (HttpURLConnection) url.openConnection(PROXY);
 					conn.setRequestMethod("POST");
 					conn.connect();
 					String response = "";
@@ -569,6 +579,7 @@ public class MainBridgeController {
 							response += line;
 						}
 					}
+					System.out.println("Response:" + response);
 					if (!response.equals("")) {
 						JSONObject jsonData = (JSONObject) new JSONParser().parse(response);
 						TelkomApiData apiData = new TelkomApiData();
@@ -607,7 +618,11 @@ public class MainBridgeController {
 							}
 							json.put("CAT_IDS", cat_ids);
 						}
-						json.put("status", apiData.getAPI_Status());
+						System.out.println(api_data);
+						if (!api_data.isEmpty())
+							json.put("status", api_data.get(0).getAPI_Status());
+						else
+							json.put("status", "false");
 						Gson gson = new Gson();
 						json.put("error", "false");
 						json.put("data", (JSONObject) new JSONParser().parse(gson.toJson(apiData)));
@@ -654,7 +669,7 @@ public class MainBridgeController {
 					URL u = new URL(WSO2_BASE_URL + "/WSO2GatewayPlugin/rest/WSO2TokenService/getAccessCode?clientId="
 							+ clientId + "&clientSecret=" + clientSecret + "&userid=" + userid + "&password=" + password
 							+ "&validity_period=" + validity_period);
-					c = (HttpURLConnection) u.openConnection();
+					c = (HttpURLConnection) u.openConnection(PROXY);
 					c.setRequestMethod("POST");
 					c.setRequestProperty("Content-length", "0");
 					c.setUseCaches(false);
@@ -738,7 +753,7 @@ public class MainBridgeController {
 						+ "&email=" + email + "&password=" + password + "&fullname=" + firstName;
 				URL u = new URL(urlPath);
 				System.out.println(urlPath);
-				c = (HttpURLConnection) u.openConnection();
+				c = (HttpURLConnection) u.openConnection(PROXY);
 				c.setRequestMethod("POST");
 				c.setDoOutput(true);
 				c.setUseCaches(false);
@@ -810,7 +825,7 @@ public class MainBridgeController {
 					URL u = new URL(WSO2_BASE_URL + "/WSO2GatewayPlugin/rest/WSO2StoreService/addSubcriptions?apiName="
 							+ apiName + "&apiVersion=" + apiVersion + "&tier=" + tier + "&applicationId="
 							+ applicationId + "&userid=" + userid + "&password=" + password);
-					c = (HttpURLConnection) u.openConnection();
+					c = (HttpURLConnection) u.openConnection(PROXY);
 					c.setRequestMethod("POST");
 					c.setRequestProperty("Content-length", "0");
 					c.setUseCaches(false);
@@ -873,7 +888,7 @@ public class MainBridgeController {
 							WSO2_BASE_URL + "/WSO2GatewayPlugin/rest/WSO2StoreService/removeSubcriptions?apiName="
 									+ apiName + "&apiVersion=" + apiVersion + "&applicationId=" + applicationId
 									+ "&userid=" + userid + "&password=" + password);
-					c = (HttpURLConnection) u.openConnection();
+					c = (HttpURLConnection) u.openConnection(PROXY);
 					c.setRequestMethod("POST");
 					c.setRequestProperty("Content-length", "0");
 					c.setUseCaches(false);
@@ -935,7 +950,7 @@ public class MainBridgeController {
 				System.out.println(password);
 				URL u = new URL(WSO2_BASE_URL + "/WSO2GatewayPlugin/rest/WSO2StoreService/getAllSubcriptions?userid="
 						+ userid + "&password=" + password);
-				c = (HttpURLConnection) u.openConnection();
+				c = (HttpURLConnection) u.openConnection(PROXY);
 				c.setRequestMethod("POST");
 				c.setRequestProperty("Content-length", "0");
 				c.setUseCaches(false);
@@ -989,7 +1004,7 @@ public class MainBridgeController {
 				HttpURLConnection c = null;
 				URL u = new URL(WSO2_BASE_URL + "/WSO2GatewayPlugin/rest/WSO2StoreService/getAllApplications?userid="
 						+ userid + "&password=" + password);
-				c = (HttpURLConnection) u.openConnection();
+				c = (HttpURLConnection) u.openConnection(PROXY);
 				c.setRequestMethod("POST");
 				c.setRequestProperty("Content-length", "0");
 				c.setUseCaches(false);
@@ -1046,7 +1061,7 @@ public class MainBridgeController {
 						WSO2_BASE_URL + "/WSO2GatewayPlugin/rest/WSO2StoreService/generateApplicationKey?keytype="
 								+ keytype + "&callbackUrl=" + callbackUrl + "&authorizedDomains=" + authorizedDomains
 								+ "&validityTime=" + validityTime + "&userid=" + userid + "&password=" + password);
-				c = (HttpURLConnection) u.openConnection();
+				c = (HttpURLConnection) u.openConnection(PROXY);
 				c.setRequestMethod("POST");
 				c.setRequestProperty("Content-length", "0");
 				c.setUseCaches(false);
@@ -1158,7 +1173,7 @@ public class MainBridgeController {
 						+ apiName + "&version=" + version + "&accesscode=" + accesscodeRes.get("access_token");
 				System.out.println(urlData);
 				URL u = new URL(urlData);
-				c = (HttpURLConnection) u.openConnection();
+				c = (HttpURLConnection) u.openConnection(PROXY);
 				c.setRequestMethod("POST");
 				c.setRequestProperty("Content-length", "0");
 				c.setUseCaches(false);
@@ -1199,57 +1214,15 @@ public class MainBridgeController {
 
 	public static void main(String[] args) throws Exception {
 		MainBridgeController bridgeController = new MainBridgeController();
-		bridgeController.getPricingData("SMSNotification", "1.0.0");
-		// System.out.println("FINAL DATA : " + bridgeController
-		// .getAccessCode("whmNIcoAoH2ymTsi_qJvgcSyfkwa",
-		// "IxZtkpABvETjvYwAJByNz2iMPnUa", "test@liferay.com", "30")
-		// .getEntity());
-		// System.out.println(bridgeController.addUser("suman.das2", "Suman",
-		// "Kumar Das", "suman.das2@wipro.com"));
-		// JSONObject jsonApi = (JSONObject) new
-		// JSONParser().parse("{\"API_ID\":\"123\",\"API_Name\":\"TESTING\"}");
-		// TelkomApiData api = new TelkomApiData();
-		// Iterator iterator = jsonApi.keySet().iterator();
-		// while (iterator.hasNext()) {
-		// String field = (String)iterator.next();
-		//
-		// Field fieldData = TelkomApiData.class.getDeclaredField(field);
-		// if (fieldData.getName() != "API_ID") {
-		// Method method = TelkomApiData.class.getMethod("set" + field,
-		// fieldData.getType());
-		// Class classData = fieldData.getType();
-		// if (classData == Boolean.class) {
-		// method.invoke(api,
-		// Boolean.parseBoolean(jsonApi.get(field).toString().trim()));
-		// } else if (classData == int.class) {
-		// method.invoke(api,
-		// Integer.parseInt(jsonApi.get(field).toString().trim()));
-		// } else if (classData == boolean.class) {
-		// method.invoke(api,
-		// Boolean.parseBoolean(jsonApi.get(field).toString().trim()));
-		// } else if (classData == byte.class) {
-		// method.invoke(api,
-		// Byte.parseByte(jsonApi.get(field).toString().trim()));
-		// } else if (classData == char.class) {
-		// method.invoke(api, jsonApi.get(field).toString().trim().charAt(0));
-		// } else if (classData == short.class) {
-		// method.invoke(api,
-		// Short.parseShort(jsonApi.get(field).toString().trim()));
-		// } else if (classData == long.class) {
-		// method.invoke(api,
-		// Long.parseLong(jsonApi.get(field).toString().trim()));
-		// } else if (classData == float.class) {
-		// method.invoke(api,
-		// Float.parseFloat(jsonApi.get(field).toString().trim()));
-		// } else if (classData == double.class) {
-		// method.invoke(api,
-		// Double.parseDouble(jsonApi.get(field).toString().trim()));
-		// } else {
-		// method.invoke(api, classData.cast(jsonApi.get(field)));
-		// }
-		// }
-		// }
-		// System.out.println(api);
+		// JSONObject json = (JSONObject) JSONValue.parse(
+		// "{\"datatype\":\"TelkomApiData\",\"data\":{\"API_Name\":\"MainAPIBilling\",\"API_Short_Desc\":\"\",\"API_Mgr_ID\":\"1\",\"API_ID\":\"0\",\"API_Ver\":\"1.0.0-unbill\",\"API_Status\":\"PUBLISHED\"},\"CAT_IDS\":\"2\",\"Role_IDS\":\"\",\"Published\":\"false\"}");
+		// bridgeController.add(json);
+		// System.out.println(bridgeController.getAllApiData("WSO2", "true",
+		// "20122,20123", "4"));
+		// String str = "20122,20123";
+		// System.out.println(str.contains("20122"));
+		System.out.println(bridgeController.addUser("vikas.jha@wipro.com", "Vikas", "Jha", "vikas.jha@wipro.com"));
+
 	}
 
 }

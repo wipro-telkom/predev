@@ -1,0 +1,304 @@
+.grid .Box {
+	float: left;
+	width: 22%;
+	height: 263px;
+	margin: 20px 14px;
+	border: 1px solid darkgrey;
+}
+
+.list .listgroup {
+	float: right;
+	width: 83%
+}
+
+.list .Box {
+	width: 100%;
+	padding: 10px 0px;
+}
+
+.Box img {
+	height: 100px;
+	width: 100px;
+}
+
+.list .boxImage {
+	float: left;
+	width: 12%;
+}
+
+.grid .Box p {
+	text-align: center;
+}
+
+.Box a {
+	text-decoration: none;
+}
+
+.grid .boxHeading {
+	text-align: center;
+	color: #000;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+ul {
+	list-style: none;
+}
+
+.grid .subHeading {
+	text-align: center;
+	color: #b3b3b3;
+	font-weight: normal;
+	margin-top: 0px;
+}
+
+.mainHeading {
+	text-align: center;
+	font-weight: bold;
+}
+
+.categotryOption {
+	float: left;
+	width: 30%;
+	padding: 20px;
+	font-weight: bold;
+}
+
+.categotryOption select {
+	font-weight: bold;
+	width: 150px;
+	height: 27px;
+}
+
+.sortOption {
+	float: left;
+	width: 30%;
+	padding: 20px;
+	font-weight: bold;
+}
+
+.sortOption select {
+	font-weight: bold;
+	width: 150px;
+	height: 27px;
+}
+
+.searchSection {
+	float: left;
+	width: 23%;
+	padding: 20px;
+}
+
+.viewOption {
+	float: right;
+	width: 17%;
+	padding: 20px;
+	font-weight: bold;
+}
+
+.viewOption i {
+	margin: 5px 0px;
+	text-decoration: none;
+	color: darkgray;
+}
+
+.viewOption button {
+	padding: 2px;
+	margin: 0px;
+	background-color: transparent;
+	border: none;
+	outline: none;
+}
+
+.grid li {
+	display: block;
+	list-style-type: none !important;
+}
+
+hr {
+	margin: 0px !important;
+	border: 1px solid darkgray !important;
+	width: 100% !important;
+	clear: both;
+}
+
+.searchInput {
+	float: left;
+}
+
+.searchInput input {
+	height: 27px;
+}
+
+.searchIcon {
+	float: left;
+	margin-left: -18px;
+	margin-top: 2px;
+}
+
+.searchIcon a {
+	text-decoration: none;
+	color: grey;
+	font-weight: normal;
+	font-size: 12px;
+}
+
+div {
+	font-family: 'Titillium Web', "Lato", "Helvetica Neue", Helvetica, Arial,
+		sans-serif;
+}
+
+.buttontype {
+	clear: both;
+	background-color: transparent;
+	border: 2px solid #e62037;
+	border-radius: 2px;
+	font-size: 14px;
+	text-transform: unset !important;
+	margin-left: 0 !important;
+	color: black;
+	min-width: 80px;
+	max-width: 128px;
+	padding: 8px 15px !important;
+	outline: 0;
+}
+
+.buttontype:hover, .buttontype:active, .buttontype:focus {
+	color: white;
+	background-color: #e62037;
+	outline: 0;
+	border: 2px solid #e62037;
+}
+
+.grid .mainBox {
+	margin: 0 auto;
+}
+
+.grid .img-transform--hovereffect {
+	transition: all .2s ease-in-out;
+}
+
+.grid .img-transform--hovereffect:hover {
+	transform: scale(1.1);
+	cursor: pointer;
+}
+
+.pageDes h4 {
+	float: left;
+	margin: 5px 0px;
+}
+
+.pageDes p {
+	font-size: 14px;
+	color: #b3b3b3;
+}
+
+.clearfix {
+	clear: both;
+}
+
+.buttontype {
+	clear: both;
+}
+
+.pageDes {
+	width: 1024px;
+	margin: 0 auto;
+}
+
+.buttonLoad {
+	text-align: center;
+}
+
+.mainBox .boxImage {
+	text-align: center;
+}
+
+.grid .boxHeading {
+	text-align: center;
+	color: #000;
+	font-weight: bold;
+	margin: 5px 0px !important;
+}
+
+.grid .subHeading {
+	text-align: center;
+	color: #b3b3b3;
+	font-weight: normal;
+	margin: 5px 0px !important;
+}
+
+.mainBox .boxImage {
+	text-align: center;
+	margin: 5px 0px !important;
+}
+
+.grid .Box p {
+	text-align: center;
+	margin: 5px;
+}
+
+.mainHeading {
+	text-align: center;
+	font-weight: bold;
+	margin-top: 20px !important;
+}
+
+.pageDes .searchbox {
+	padding: 0px !important;
+}
+
+.pageDes .searchbox .searchInput {
+	width: 95% !important;
+}
+
+.list .subHeading {
+	color: #b3b3b3;
+	font-weight: normal;
+}
+
+.list .boxHeading {
+	margin: 5px 0px !important;
+	font-weight: bold;
+}
+
+.list  .subHeading {
+	margin: 5px 0px !important;
+}
+
+.list .Box p {
+	margin: 5px !important
+}
+
+.list .Box {
+	width: 100%;
+	padding: 10px 0px;
+	height: 145px;
+}
+
+.pageDes h4 {
+	float: left;
+	margin: 5px 0px !important;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+.mainBox .paralist {
+	display: none;
+}
+
+.buttonLoad {
+	display: none;
+}
+
+.list .Box {
+	width: 100%;
+	padding: 10px 0px;
+	height: 145px;
+	border-bottom: 1px solid darkgrey;
+	margin-top: 10px;
+}
+.searchbox .searchInput input {
+                outline: none;
+                font-style: inherit;
+}
