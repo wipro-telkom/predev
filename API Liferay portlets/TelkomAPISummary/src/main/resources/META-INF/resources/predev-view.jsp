@@ -195,7 +195,7 @@ $(document).ready(function(){
 	
 		$.ajax({
 					method : "get",
-					url : "http://wso2-predev-website.2f96.telkom.openshiftapps.com/GatewayBridgePlugin/rest/BridgeController/getApicategoryData",
+					url : "http://wso2plugin-predev-website.2f96.telkom.openshiftapps.com/GatewayBridgePlugin/rest/BridgeController/getApicategoryData",
 					type : 'json',					 
 				}).done(
 				 function(message){
@@ -220,8 +220,8 @@ $(document).ready(function(){
 		  	//alert(roleId);
 			$.ajax({
 				  type: "get",
-				 //url : "http://wso2-predev-website.2f96.telkom.openshiftapps.com/GatewayBridgePlugin/rest/BridgeController/getAllApiData?api=WSO2&cache=true&role=1&category="+categoryId,
-				  url : "http://wso2-predev-website.2f96.telkom.openshiftapps.com/GatewayBridgePlugin/rest/BridgeController/getAllApiData?api=WSO2&cache=true&role="+roleId+"&category="+categoryId,
+				 //url : "http://wso2plugin-predev-website.2f96.telkom.openshiftapps.com/GatewayBridgePlugin/rest/BridgeController/getAllApiData?api=WSO2&cache=true&role=1&category="+categoryId,
+				  url : "http://wso2plugin-predev-website.2f96.telkom.openshiftapps.com/GatewayBridgePlugin/rest/BridgeController/getAllApiData?api=WSO2&cache=true&role="+roleId+"&category="+categoryId,
 				 contentType: 'application/json',		  
 				}).done(
 					function(message){
